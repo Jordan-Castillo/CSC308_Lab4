@@ -6,7 +6,7 @@
 
 * Creation Date : 30-10-2017
 
-* Last Modified : Mon 30 Oct 2017 03:39:42 PM PDT
+* Last Modified : Mon 30 Oct 2017 05:45:53 PM PDT
 
 * Created By : Jordan Castillo
 
@@ -24,8 +24,10 @@ ORDER BY LastName;
 -- Q 2) list grade and classroom, sort by classroom
 SELECT DISTINCT classroom, grade
 FROM list
-WHERE DISTINCT classroom
-ORDER BY class;
+ELECT l.LastName, l.FirstName
+FROM list l, teachers t
+WHERE (l.classroom = t.classroom) AND (t.First = 'OTHA') AND (t.Last = 'MOYER')
+ORDER BY l.LastName;
 
 -- Q 3) report first and lastname of teachers and room number, sort by room number
 SELECT DISTINCT t.First, t.Last, t.classroom
