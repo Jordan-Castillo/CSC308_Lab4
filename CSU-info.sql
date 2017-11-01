@@ -6,7 +6,7 @@
 
 * Creation Date : 30-10-2017
 
-* Last Modified : Mon 30 Oct 2017 10:58:15 PM PDT
+* Last Modified : Tue 31 Oct 2017 02:28:34 PM PDT
 
 * Created By : Jordan Castillo
 
@@ -42,29 +42,31 @@ ORDER BY cp.Campus, dc.Name;
 
 -- Q 4) not working, and not sure where to go from here
 SELECT cp.Campus, de1.Gr, de2.Gr
-FROM discEnr AS de1
-JOIN discEnr AS de2
-ON (de1.Year = de2.Year) AND (de1.CampusID = de2.CampusID)
-JOIN disciplines AS dc
-ON (dc.ID = de1.Discipline)
-JOIN campuses AS cp
-ON (cp.Id = de1.CampusId)
-WHERE (dc.Name = 'Agriculture' OR dc.Name = 'Biological Sciences')
-AND (de1.Gr > 0 AND de2.Gr > 0)
-AND (de1.Year = 2004)
-ORDER BY de1.Gr;
+FROM campuses cp, disciplines AS dc
+JOIN discEnr as de1
+	ON(dc.Name = 'Agriculture' AND dc.Id = de1.Discipline)
+JOIN discEnr as de2
+	ON(dc.Name = 'Biological Sciences' AND dc.Id = de2.Discipline)
+WHERE (cp.Id = de1.CampusId AND cp.Id = de2.CampusId)
+AND (de1.Year = 2004 AND de2.Year = 2004)
+ORDER BY cp.Campus, de1.Gr
 
 -- Q 5)
 SELECT cp.Campus, dc.Name
-FROM disciplines dc, campuses cp, discEnr de
-WHERE 
-ORDER BY
+FROM campuses cp, disciplines dc, discEnr de
+WHERE (cp.Id = de.CampusId)
+AND (dc.Id = de.Discipline)
+AND (de.Gr/de.Ug > 3)
+AND (de.Year = 2004)
+ORDER BY cp.Campus, dc.Name;
 
 -- Q 6)
-SELECT
-FROM
-WHERE
-ORDER BY
+SELECT en.Year, (en.FTE * fe.fee) AS Sum, ((en.FTE * fe.fee) / fc.FTE) AS facultyAmount 
+FROM campuses cp, enrollments en, fees fe, faculty fc
+WHERE (cp.Id = en.CampusId AND cp.Id = fe.CampusID AND cp.Id = fc.CampusId)
+AND (cp.Campus = 'Fresno State University')
+AND (en.Year >= 2002 AND en.Year <= 2004) 
+ORDER BY en.Year;
 
 -- Q 7)
 SELECT
